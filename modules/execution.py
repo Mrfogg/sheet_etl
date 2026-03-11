@@ -212,6 +212,8 @@ Please start by exploring the data structure and then work toward answering the 
             logger.info(f"Execution turn {turn + 1}")
 
             try:
+                import json
+                print(json.dumps(self.conversation_history, indent=4))
                 response_message = self._get_llm_response()
                 self.conversation_history.append(response_message)
 

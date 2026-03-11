@@ -14,7 +14,7 @@ import os
 sys.path.insert(0, os.path.dirname(__file__))
 
 from core.agent import SheetBrain
-# from config.settings import Config  # Uncomment if using custom configuration  
+from config.settings import Config  # Uncomment if using custom configuration
 
 
 def main():
@@ -36,12 +36,15 @@ def main():
     agent = SheetBrain(excel_path=excel_path, total_token_budget=5000)
 
     # Option 2: Use custom configuration (commented out)
-    # config = Config(
-    #     max_turns=5,
-    #     enable_validation=True,
-    #     enable_understanding=True
-    # )
-    # agent = SheetBrain(excel_path=excel_path, config=config)
+    config = Config(
+        base_url='https://ark.cn-beijing.volces.com/api/v3',
+        api_key='28f93d70-ea9c-47f8-8cce-5eae9e8cf3bc',
+        deployment="doubao-seed-2-0-pro-260215",
+        max_turns=5,
+        enable_validation=True,
+        enable_understanding=True
+    )
+    agent = SheetBrain(excel_path=excel_path, config=config)
 
     print("📋 [Example] Starting analysis...")
 
@@ -54,9 +57,9 @@ def main():
             enable_understanding=True
         )
 
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("FINAL RESULT")
-        print("="*60)
+        print("=" * 60)
         print(f"Success: {result['success']}")
         print(f"Total Iterations: {result['total_iterations']}")
         print(f"Final Answer: {result['answer']}")
@@ -69,7 +72,7 @@ def main():
             for issue in result['issues_found']:
                 print(f"  - {issue}")
 
-        print("="*60)
+        print("=" * 60)
 
     except Exception as e:
         print(f"❌ Error running analysis: {str(e)}")
