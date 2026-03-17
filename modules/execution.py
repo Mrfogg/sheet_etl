@@ -316,6 +316,8 @@ Please start by exploring the data structure and then work toward answering the 
         stderr_capture = io.StringIO()
 
         result = ""
+        print(code)
+        print("code******************===========")
 
         try:
             sys.stdout = stdout_capture

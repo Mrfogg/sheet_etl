@@ -23,8 +23,8 @@ def main():
     print("🚀 [Example] Initializing SheetBrain...")
 
     # Example configuration
-    excel_path = "example_table.xlsx"
-    user_question = "What is the total landings (tonnes live weight) for Scotland in 2023, and how does it compare to the total landings for England, Wales, and N.I.?"
+    excel_path = "inspect_file_test_file.xlsx"
+    user_question = "用电量最多的公司是哪个？"
 
     # Check if Excel file exists
     if not os.path.exists(excel_path):
