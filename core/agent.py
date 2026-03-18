@@ -73,6 +73,12 @@ class SheetBrain:
             # Generate Excel context
             if excel_context_understanding is None:
                 self.excel_context_understanding = self._generate_sheets_markdown_summary(total_token_budget * 2)
+                # Write to file instead of printing
+                output_file = "excel_context.md"
+                with open(output_file, 'w', encoding='utf-8') as f:
+                    f.write(self.excel_context_understanding)
+                print(f"Excel context written to {output_file}")
+                exit(0)
             else:
                 self.excel_context_understanding = excel_context_understanding
 
@@ -330,7 +336,7 @@ Please address these specific points in your new analysis approach."""
             available_tokens = total_token_budget
 
             # Distribute tokens among sheets
-            tokens_per_sheet = available_tokens // len(workbook.sheetnames) if workbook.sheetnames else 0
+            tokens_per_sheet = available_tokens
 
             for sheet_name in workbook.sheetnames:
                 sheet = workbook[sheet_name]
@@ -357,12 +363,29 @@ Please address these specific points in your new analysis approach."""
                     # Add data preview in markdown table format with A1 notation
                     sheet_parts.append("  Data:")
                     markdown_rows = []
+                    
+                    # Add header row if we have data
+                    if preview_result['formatted_data']:
+                        # Create header row with column letters
+                        header_cells = []
+                        for col_idx in range(1, preview_result['cols_shown'] + 1):
+                            header_cells.append(f"Col {get_column_letter(col_idx)}")
+                        markdown_rows.append(f"| {' | '.join(header_cells)} |")
+                        
+                        # Add separator row
+                        separator_cells = ['---' for _ in range(preview_result['cols_shown'])]
+                        markdown_rows.append(f"| {' | '.join(separator_cells)} |")
+                    
+                    # Add data rows
                     for row_data in preview_result['formatted_data']:
-                        markdown_rows.append(f"| {' | '.join(row_data)} |")
+                        # Extract just the values (without cell references) for cleaner display
+                        row_values = [cell.split(':')[1] if ':' in cell else cell for cell in row_data]
+                        markdown_rows.append(f"| {' | '.join(row_values)} |")
 
-                    # Join all rows with newline and backslash-n for compact representation
+                    # Add each row as a separate line for proper Markdown formatting
                     if markdown_rows:
-                        sheet_parts.append("  " + "\\n".join(markdown_rows))
+                        for row in markdown_rows:
+                            sheet_parts.append("  " + row)
 
                     # Add data summary if we couldn't show all rows
                     if preview_result['rows_shown'] < sheet.max_row:

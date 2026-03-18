@@ -23,7 +23,7 @@ def main():
     print("🚀 [Example] Initializing SheetBrain...")
 
     # Example configuration
-    excel_path = "inspect_file_test_file.xlsx"
+    excel_path = "课程格式参考表.xlsx"
     user_question = "用电量最多的公司是哪个？"
 
     # Check if Excel file exists
