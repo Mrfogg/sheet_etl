@@ -73,7 +73,7 @@ def send_post_requests():
     """循环处理tcase中的每条测试用例并发送POST请求"""
     # 目标API地址（根据实际情况修改）
     api_url = "http://127.0.0.1:8000/api/chatQueryMutl"
-    
+    print(json.dumps(tcase, ensure_ascii=False, indent=2))
     for i, test_case in enumerate(tcase, 1):
         # print(f"处理测试用例 {i}/{len(tcase)}")
         # print(f"用户问题: {test_case['用户问题']}")
